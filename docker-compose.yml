@@ -1,0 +1,32 @@
+version: '3'
+services:
+    postgres:
+        container_name: bullyingless2_db
+        image: postgres
+        environment:
+            POSTGRES_USER: root
+            POSTGRES_PASSWORD: root
+        ports:
+            - "5432:5432"
+        volumes:
+            - data:/var/lib/postgresql/data
+        networks:
+            - postgres-network
+    pgadmin:
+        container_name: bullyingless2_db_pgadmin
+        image: dpage/pgadmin4
+        environment:
+            PGADMIN_DEFAULT_EMAIL: "luizfelipe.dasilva94@gmail.com"
+            PGADMIN_DEFAULT_PASSWORD: "PgAdmin2019!"
+        ports:
+            - "16543:80"
+        depends_on:
+            - postgres
+        networks:
+            - postgres-network
+volumes:
+    data:
+        external: true
+networks: 
+    postgres-network:
+        driver: bridge
