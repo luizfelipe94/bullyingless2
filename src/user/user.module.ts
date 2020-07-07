@@ -8,6 +8,7 @@ import { Profile } from '../models/profile.entity';
 @Module({
     imports: [TypeOrmModule.forFeature([User, Profile])],
     providers: [UserService],
-    controllers: [UserController]
+    controllers: [UserController],
+    exports: [UserService]
 })
 export class UserModule {  }

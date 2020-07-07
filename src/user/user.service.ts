@@ -9,7 +9,7 @@ export class UserService {
     constructor(@InjectRepository(User) private readonly repo: Repository<User>){}
 
     public async getAll(): Promise<User[]> {
-        return await this.repo.find();
+        return await this.repo.find({ relations: ['profile'] });
     }
 
 }
