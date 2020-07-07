@@ -1,4 +1,4 @@
-import { Entity, Column, BaseEntity, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, BaseEntity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from 'typeorm';
 
 enum ProfileType {
     STUDENT = 'Stunded',
@@ -9,17 +9,27 @@ enum ProfileType {
 @Entity({ name: 'Profile' })
 export class Profile extends BaseEntity {
 
-    @PrimaryGeneratedColumn()
+    @PrimaryGeneratedColumn('uuid')
     id: number;
 
     @Column({
         type: 'enum',
         enum: ProfileType,
-        default: ProfileType.STUDENT
+        default: ProfileType.STUDENT,
+        nullable: false
     })
     name: ProfileType;
 
     @Column({ type: 'varchar', length: '255' })
     description: string;
+
+    @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP', nullable: false })
+    createdAt: Date;
+
+    @UpdateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP', nullable: false })
+    updatedAt: Date;
+
+    @DeleteDateColumn({ type: 'timestamptz', nullable: true })
+    deletedAt: Date;
 
 }
