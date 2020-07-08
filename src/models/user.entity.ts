@@ -9,25 +9,25 @@ export class User extends BaseEntity {
     @PrimaryGeneratedColumn('uuid')
     id: number;
 
-    @Column({ type: 'varchar', length: '255' })
+    @Column({ type: 'varchar', length: '255', nullable: false })
     name: string;
 
-    @Column({ type: 'varchar', length: '255' })
+    @Column({ type: 'varchar', length: '255', nullable: false })
     username: string;
 
-    @Column({ type: 'varchar', length: '255' })
+    @Column({ type: 'varchar', length: '255', unique: true, nullable: false })
     email: string;
 
-    @Column({ type: 'varchar', length: '255' })
+    @Column({ type: 'varchar', length: '255', nullable: false })
     password: string;
 
-    @ManyToOne(() => Profile)
+    @ManyToOne(() => Profile, { nullable: false })
     profile: Profile;
 
-    @ManyToOne(type => School, school => school.users)
+    @ManyToOne(type => School, school => school.users, { nullable: false })
     school: School;
 
-    @OneToMany(type => Device, device => device.user)
+    @OneToMany(type => Device, device => device.user, { nullable: true })
     devices: Device[];
 
     @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP', nullable: false })

@@ -8,14 +8,14 @@ export class School extends BaseEntity {
     @PrimaryGeneratedColumn('uuid')
     id: number;
 
-    @Column({ type: 'varchar', length: '255', unique: true })
+    @Column({ type: 'varchar', length: '255', unique: true, nullable: false })
     name: string;
 
-    @OneToOne(() => Tenant)
+    @OneToOne(() => Tenant, { nullable: false })
     @JoinColumn()
     tenant: Tenant;
 
-    @OneToMany(type => User, user => user.school)
+    @OneToMany(type => User, user => user.school, { nullable: true })
     users: User[]
 
     @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP', nullable: false })

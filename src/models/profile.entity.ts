@@ -15,7 +15,7 @@ export class Profile extends BaseEntity {
     @Column({ type: 'enum', enum: ProfileType, default: ProfileType.STUDENT, nullable: false })
     name: ProfileType;
 
-    @Column({ type: 'varchar', length: '255' })
+    @Column({ type: 'varchar', length: '255', nullable: true })
     description: string;
 
     @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP', nullable: false })

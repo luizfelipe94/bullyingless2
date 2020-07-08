@@ -16,7 +16,7 @@ export class Device extends BaseEntity {
     @Column({ type: 'varchar', length: '255', unique: false, nullable: false })
     phoneNumber: string;
 
-    @ManyToOne(type => User, user => user.devices)
+    @ManyToOne(type => User, user => user.devices, { nullable: false })
     user: User;
 
     @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP', nullable: false })

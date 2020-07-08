@@ -1,6 +1,7 @@
-import { Entity, Column, BaseEntity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, ManyToOne } from 'typeorm';
+import { Entity, Column, BaseEntity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, ManyToOne, OneToOne } from 'typeorm';
 import { School } from './school.entity';
 import { Device } from './device.entity';
+import { Denouement } from './denouement.entity';
 
 @Entity({ name: 'Occurence' })
 export class Occurence extends BaseEntity {
@@ -17,11 +18,14 @@ export class Occurence extends BaseEntity {
     @Column({ type: 'varchar', length: '500', unique: false, nullable: false })
     local: string;
 
-    @ManyToOne(type => School)
+    @ManyToOne(type => School, { nullable: false })
     school: School
 
-    @ManyToOne(type => Device)
+    @ManyToOne(type => Device, { nullable: false })
     device: Device
+
+    @OneToOne(type => Denouement, denoeument => denoeument.occurence, { nullable: true })
+    denouement: Denouement;
 
     @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP', nullable: false })
     createdAt: Date;
