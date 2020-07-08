@@ -1,22 +1,13 @@
 import { Entity, Column, BaseEntity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from 'typeorm';
 
-enum ProfileType {
-    STUDENT = 'Stunded',
-    ADMINISTRATOR = 'Administrator',
-    ROOT = 'Root'
-}
-
-@Entity({ name: 'Profile' })
-export class Profile extends BaseEntity {
+@Entity({ name: 'Tenant' })
+export class Tenant extends BaseEntity {
 
     @PrimaryGeneratedColumn('uuid')
     id: number;
 
-    @Column({ type: 'enum', enum: ProfileType, default: ProfileType.STUDENT, nullable: false })
-    name: ProfileType;
-
-    @Column({ type: 'varchar', length: '255' })
-    description: string;
+    @Column({ type: 'varchar', length: '255', unique: true })
+    name: string;
 
     @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP', nullable: false })
     createdAt: Date;

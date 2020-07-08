@@ -1,5 +1,7 @@
-import { Entity, Column, OneToOne, JoinColumn, BaseEntity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from 'typeorm';
+import { Entity, Column, BaseEntity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, OneToMany, ManyToOne } from 'typeorm';
 import { Profile } from './profile.entity';
+import { Device } from './device.entity';
+import { School } from './school.entity';
 
 @Entity({ name: 'User' })
 export class User extends BaseEntity {
@@ -19,12 +21,14 @@ export class User extends BaseEntity {
     @Column({ type: 'varchar', length: '255' })
     password: string;
 
-    @Column({ nullable: false })
-    profileId: number;
-
-    @OneToOne(() => Profile)
-    @JoinColumn()
+    @ManyToOne(() => Profile)
     profile: Profile;
+
+    @ManyToOne(type => School, school => school.users)
+    school: School;
+
+    @OneToMany(type => Device, device => device.user)
+    devices: Device[];
 
     @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP', nullable: false })
     createdAt: Date;
