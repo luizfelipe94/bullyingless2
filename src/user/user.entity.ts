@@ -4,7 +4,6 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Profile } from '../profile/profile.entity';
 import { Device } from '../models/device.entity';
 import { School } from '../school/school.entity';
-import { IsEmail } from 'class-validator';
 
 @Entity({ name: 'User' })
 export class User extends BaseEntity {
@@ -19,7 +18,6 @@ export class User extends BaseEntity {
     @Column({ type: 'varchar', length: '255', nullable: false })
     username: string;
 
-    @IsEmail()
     @Column({ type: 'varchar', length: '255', unique: true, nullable: false })
     email: string;
 

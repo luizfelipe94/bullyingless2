@@ -40,12 +40,12 @@ export class UserService {
 
         const profile = await this.profileRepository.findOne(createUserDTO.profileId);
         if(!profile){
-            throw new HttpException({ message: `Not found profile for uuid ${createUserDTO.profileId}` }, HttpStatus.BAD_REQUEST);
+            throw new HttpException({ message: `Not found profile for uuid ${createUserDTO.profileId}` }, HttpStatus.NOT_FOUND);
         }
 
         const school = await this.schoolRepository.findOne(createUserDTO.schoolId);
         if(!school){
-            throw new HttpException({ message: `Not found school for uuid ${createUserDTO.schoolId}` }, HttpStatus.BAD_REQUEST);
+            throw new HttpException({ message: `Not found school for uuid ${createUserDTO.schoolId}` }, HttpStatus.NOT_FOUND);
         }
 
         const newUser = new User();
@@ -56,13 +56,7 @@ export class UserService {
         newUser.profile = profile;
         newUser.school = school;
 
-        const erros = await validate(newUser);
-        if(erros.length > 0){
-            const _errors = {username: 'Userinput is not valid.'};
-            throw new HttpException({message: 'Input data validation failed', _errors}, HttpStatus.BAD_REQUEST);
-        }else{
-            return await this.userRepository.save(newUser);
-        }
+        return await this.userRepository.save(newUser);
 
     }
 
