@@ -9,7 +9,7 @@ export class UserController {
 
     @Get()
     public async getAll(): Promise<User[]> {
-        return await this.service.getAll();
+        return await this.service.findAll();
     }
 
     @Post()

@@ -5,6 +5,8 @@ import { validate } from 'class-validator';
 
 import { User } from './user.entity';
 import { Profile } from '../profile/profile.entity';
+import { School } from '../school/school.entity';
+
 import { CreateUserDTO } from './dto'
 
 @Injectable()
@@ -14,15 +16,16 @@ export class UserService {
         @InjectRepository(User) 
         private readonly userRepository: Repository<User>,
         @InjectRepository(Profile) 
-        private readonly profileRepository: Repository<Profile>
+        private readonly profileRepository: Repository<Profile>,
+        @InjectRepository(School) 
+        private readonly schoolRepository: Repository<School>
     ){}
 
-    public async getAll(): Promise<User[]> {
-        return await this.userRepository.find({ relations: ['profile'] });
+    public async findAll(): Promise<User[]> {
+        return await this.userRepository.find({ relations: ['profile', 'school', 'school.tenant'] });
     }
 
     public async create(createUserDTO: CreateUserDTO): Promise<User> {
-
 
         const qb = await this.userRepository
         .createQueryBuilder('user')
@@ -42,23 +45,27 @@ export class UserService {
             throw new HttpException({ message: 'Input data validation failed', errors }, HttpStatus.BAD_REQUEST);
         }
 
+        const school = await this.schoolRepository.findOne(createUserDTO.schoolId);
+        if(!school){
+            const errors = { profile: `Not found school for uuid ${createUserDTO.schoolId}` };
+            throw new HttpException({ message: 'Input data validation failed', errors }, HttpStatus.BAD_REQUEST);
+        }
+
         const newUser = new User();
         newUser.name = createUserDTO.name;
         newUser.email = createUserDTO.email;
         newUser.password = createUserDTO.password;
         newUser.profile = profile;
+        newUser.school = school;
 
         const erros = await validate(newUser);
         if(erros.length > 0){
             const _errors = {username: 'Userinput is not valid.'};
             throw new HttpException({message: 'Input data validation failed', _errors}, HttpStatus.BAD_REQUEST);
         }else{
-            const result = this.userRepository.create(newUser);
-            return 
-        }        
+            return await this.userRepository.save(newUser);
+        }
 
-        return;
-        
     }
 
     public generateJWT(): Promise<void> {
