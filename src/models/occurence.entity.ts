@@ -1,5 +1,5 @@
 import { Entity, Column, BaseEntity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, ManyToOne, OneToOne } from 'typeorm';
-import { School } from './school.entity';
+import { School } from '../school/school.entity';
 import { Device } from './device.entity';
 import { Denouement } from './denouement.entity';
 

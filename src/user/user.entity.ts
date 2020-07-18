@@ -1,7 +1,8 @@
-import { Entity, Column, BaseEntity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, OneToMany, ManyToOne } from 'typeorm';
-import { Profile } from './profile.entity';
-import { Device } from './device.entity';
-import { School } from './school.entity';
+import { Entity, Column, BaseEntity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, OneToMany, ManyToOne, BeforeInsert } from 'typeorm';
+import { Profile } from '../profile/profile.entity';
+import { Device } from '../models/device.entity';
+import { School } from '../school/school.entity';
+import { IsEmail } from 'class-validator';
 
 @Entity({ name: 'User' })
 export class User extends BaseEntity {
@@ -15,11 +16,17 @@ export class User extends BaseEntity {
     @Column({ type: 'varchar', length: '255', nullable: false })
     username: string;
 
+    @IsEmail()
     @Column({ type: 'varchar', length: '255', unique: true, nullable: false })
     email: string;
 
     @Column({ type: 'varchar', length: '255', nullable: false })
     password: string;
+
+    @BeforeInsert()
+    async hashPassword(): Promise<void> {
+        console.log("criptografar o password");
+    }
 
     @ManyToOne(() => Profile, { nullable: false })
     profile: Profile;

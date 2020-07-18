@@ -1,6 +1,6 @@
 import { Entity, Column, BaseEntity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, OneToOne, JoinColumn, OneToMany } from 'typeorm';
-import { Tenant } from './tenant.entity';
-import { User } from './user.entity';
+import { Tenant } from '../tenant/tenant.entity';
+import { User } from '../user/user.entity';
 
 @Entity({ name: 'School' })
 export class School extends BaseEntity {

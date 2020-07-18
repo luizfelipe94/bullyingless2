@@ -2,8 +2,8 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
-import { User } from '../models/user.entity';
-import { Profile } from '../models/profile.entity';
+import { User } from './user.entity';
+import { Profile } from '../profile/profile.entity';
 
 @Module({
     imports: [TypeOrmModule.forFeature([User, Profile])],
@@ -11,4 +11,6 @@ import { Profile } from '../models/profile.entity';
     controllers: [UserController],
     exports: [UserService]
 })
-export class UserModule {  }
+export class UserModule { 
+    // TODO: middleware auth
+}
