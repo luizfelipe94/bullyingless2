@@ -27,6 +27,8 @@ export class UserService {
 
     public async create(createUserDTO: CreateUserDTO): Promise<User> {
 
+        const { username } = createUserDTO;
+
         const qb = await this.userRepository
         .createQueryBuilder('user')
         .where('user.username = :username', { username: createUserDTO.username })
