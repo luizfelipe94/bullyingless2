@@ -27,8 +27,6 @@ export class UserService {
 
     public async create(createUserDTO: CreateUserDTO): Promise<User> {
 
-        const { username } = createUserDTO;
-
         const qb = await this.userRepository
         .createQueryBuilder('user')
         .where('user.username = :username', { username: createUserDTO.username })
@@ -37,24 +35,22 @@ export class UserService {
         const user = await qb.getOne();
 
         if(user){
-            const errors = { username: 'Username and email must be unique.' };
-            throw new HttpException({ message: 'Input data validation failed', errors }, HttpStatus.BAD_REQUEST);
+            throw new HttpException({ message: 'Username and email must be unique.' }, HttpStatus.BAD_REQUEST);
         }
 
         const profile = await this.profileRepository.findOne(createUserDTO.profileId);
         if(!profile){
-            const errors = { profile: `Not found profile for uuid ${createUserDTO.profileId}` };
-            throw new HttpException({ message: 'Input data validation failed', errors }, HttpStatus.BAD_REQUEST);
+            throw new HttpException({ message: `Not found profile for uuid ${createUserDTO.profileId}` }, HttpStatus.BAD_REQUEST);
         }
 
         const school = await this.schoolRepository.findOne(createUserDTO.schoolId);
         if(!school){
-            const errors = { profile: `Not found school for uuid ${createUserDTO.schoolId}` };
-            throw new HttpException({ message: 'Input data validation failed', errors }, HttpStatus.BAD_REQUEST);
+            throw new HttpException({ message: `Not found school for uuid ${createUserDTO.schoolId}` }, HttpStatus.BAD_REQUEST);
         }
 
         const newUser = new User();
         newUser.name = createUserDTO.name;
+        newUser.username = createUserDTO.username;
         newUser.email = createUserDTO.email;
         newUser.password = createUserDTO.password;
         newUser.profile = profile;
