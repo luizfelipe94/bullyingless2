@@ -1,4 +1,6 @@
 import { Entity, Column, BaseEntity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, OneToMany, ManyToOne, BeforeInsert } from 'typeorm';
+import { ApiProperty } from '@nestjs/swagger';
+
 import { Profile } from '../profile/profile.entity';
 import { Device } from '../models/device.entity';
 import { School } from '../school/school.entity';
@@ -10,6 +12,7 @@ export class User extends BaseEntity {
     @PrimaryGeneratedColumn('uuid')
     id: number;
 
+    @ApiProperty({  })
     @Column({ type: 'varchar', length: '255', nullable: false })
     name: string;
 
