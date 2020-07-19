@@ -1,7 +1,7 @@
 import { Entity, Column, BaseEntity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from 'typeorm';
 
 enum ProfileType {
-    STUDENT = 'Stunded',
+    STUDENT = 'Student',
     ADMINISTRATOR = 'Administrator',
     ROOT = 'Root'
 }

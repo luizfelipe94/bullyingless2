@@ -1,11 +1,12 @@
 import {MigrationInterface, QueryRunner} from "typeorm";
 
-export class init1595118536862 implements MigrationInterface {
-    name = 'init1595118536862'
+export class init1595178254292 implements MigrationInterface {
+    name = 'init1595178254292'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`CREATE TABLE "Tenant" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "name" character varying(255) NOT NULL, "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP, "updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP, "deletedAt" TIMESTAMP WITH TIME ZONE, CONSTRAINT "UQ_cebe9e163fad8d1d82343a48fba" UNIQUE ("name"), CONSTRAINT "PK_9ba54ddd56ce80e5b2d7523b6be" PRIMARY KEY ("id"))`);
-        await queryRunner.query(`CREATE TABLE "Profile" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "name" "Profile_name_enum" NOT NULL DEFAULT 'Stunded', "description" character varying(255), "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP, "updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP, "deletedAt" TIMESTAMP WITH TIME ZONE, CONSTRAINT "PK_89dff233f744d59758158aca1d7" PRIMARY KEY ("id"))`);
+        await queryRunner.query(`CREATE TYPE "Profile_name_enum" AS ENUM('Student', 'Administrator', 'Root')`);
+        await queryRunner.query(`CREATE TABLE "Profile" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "name" "Profile_name_enum" NOT NULL DEFAULT 'Student', "description" character varying(255), "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP, "updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP, "deletedAt" TIMESTAMP WITH TIME ZONE, CONSTRAINT "PK_89dff233f744d59758158aca1d7" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "Device" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "OS" character varying(255), "macaddress" character varying(255), "phoneNumber" character varying(255) NOT NULL, "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP, "updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP, "deletedAt" TIMESTAMP WITH TIME ZONE, "userId" uuid NOT NULL, CONSTRAINT "PK_f0a3247774bd4eaad2177055336" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "User" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "name" character varying(255) NOT NULL, "username" character varying(255) NOT NULL, "email" character varying(255) NOT NULL, "password" character varying(255) NOT NULL, "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP, "updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP, "deletedAt" TIMESTAMP WITH TIME ZONE, "profileId" uuid NOT NULL, "schoolId" uuid NOT NULL, CONSTRAINT "UQ_4a257d2c9837248d70640b3e36e" UNIQUE ("email"), CONSTRAINT "PK_9862f679340fb2388436a5ab3e4" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "School" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "name" character varying(255) NOT NULL, "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP, "updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP, "deletedAt" TIMESTAMP WITH TIME ZONE, "tenantId" uuid NOT NULL, CONSTRAINT "UQ_055e54c2eabaa711e752adf99a9" UNIQUE ("name"), CONSTRAINT "PK_9d02131a9366ffdb5f2889ef6b6" PRIMARY KEY ("id"))`);
@@ -48,6 +49,7 @@ export class init1595118536862 implements MigrationInterface {
         await queryRunner.query(`DROP TABLE "User"`);
         await queryRunner.query(`DROP TABLE "Device"`);
         await queryRunner.query(`DROP TABLE "Profile"`);
+        await queryRunner.query(`DROP TYPE "Profile_name_enum"`);
         await queryRunner.query(`DROP TABLE "Tenant"`);
     }
 
