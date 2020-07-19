@@ -12,9 +12,7 @@ const ORMConfig: TypeOrmModuleOptions = {
     cli: {
       migrationsDir: 'src/migrations',
     },
-    autoLoadEntities: true,
-    synchronize: true,
-    logging: true
+    logging: false
 }
 
 export = ORMConfig;

@@ -1,4 +1,4 @@
-import { Entity, Column, BaseEntity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, OneToOne, JoinColumn, OneToMany } from 'typeorm';
+import { Entity, Column, BaseEntity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, OneToOne, JoinColumn, OneToMany, ManyToOne } from 'typeorm';
 import { Tenant } from '../tenant/tenant.entity';
 import { User } from '../user/user.entity';
 
@@ -11,8 +11,7 @@ export class School extends BaseEntity {
     @Column({ type: 'varchar', length: '255', unique: true, nullable: false })
     name: string;
 
-    @OneToOne(() => Tenant, { nullable: false })
-    @JoinColumn()
+    @ManyToOne(() => Tenant, { nullable: false })
     tenant: Tenant;
 
     @OneToMany(type => User, user => user.school, { nullable: true })
