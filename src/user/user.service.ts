@@ -22,7 +22,7 @@ export class UserService {
     ){}
 
     public async findAll(): Promise<User[]> {
-        return await this.userRepository.find({ relations: ['profile', 'school', 'school.tenant'] });
+        return await this.userRepository.find({ relations: ['profile', 'profile.roles', 'profile.roles.permissions'] });
     }
 
     public async create(createUserDTO: CreateUserDTO): Promise<User> {

@@ -6,6 +6,8 @@ import { UserModule } from "./user/user.module";
 import { TenantModule } from './tenant/tenant.module';
 import { ProfileModule } from './profile/profile.module';
 import { SchoolModule } from './school/school.module';
+import { RoleModule } from './role/role.module';
+import { PermissionModule } from './permission/permission.module';
 import * as ORMConfig from './ormconfig';
 
 import * as dotenv from 'dotenv';
@@ -17,7 +19,9 @@ dotenv.config();
     UserModule,
     TenantModule,
     ProfileModule,
-    SchoolModule
+    SchoolModule,
+    RoleModule,
+    PermissionModule
   ],
   controllers: [AppController],
   providers: [AppService],
